@@ -6,14 +6,14 @@ import wikipedia
 import pyjokes
 
 listener = sr.Recognizer()
-alexa = pyttsx3.init()
-voices = alexa.getProperty('voices')
-alexa.setProperty('voice', voices[1].id)
+oxygen = pyttsx3.init()
+voices = oxygen.getProperty('voices')
+oxygen.setProperty('voice', voices[1].id)
 
 
 def talk(text):
-    alexa.say(text)
-    alexa.runAndWait()
+    oxygen.say(text)
+    oxygen.runAndWait()
 
 
 def take_command():
@@ -23,37 +23,53 @@ def take_command():
             voice = listener.listen(source)
             command = listener.recognize_google(voice)
             command = command.lower()
-            if 'alexa' in command:
-                command = command.replace('alexa', '')
+            if 'oxygen' in command:
+                command = command.replace('oxygen', '')
     except:
         pass
     return command
 
-def run_alexa():
+def run_oxygen():
     command = take_command()
     if 'time' in command:
         time = datetime.datetime.now().strftime('%I:%M %p')
-        print(time )
+        print(time)
         talk('current time is' + time)
+
     elif 'play' in command:
         song = command.replace('play', '')
         talk('playing' + song)
         pywhatkit.playonyt(song)
+
+    elif 'what is your name' in command:
+        talk('My name is Oxygen')
+    elif 'how are you' in command:
+        talk('I am fine  and you?')
+    elif 'fine' in command:
+        talk('What can i do for you?')
+    elif 'capital of bangladesh' in command:
+        talk('Capital of bangladesh is Dhaka')
+    elif 'who are you' in command:
+        talk('I am your personal voice assistant.')
+
+
+    elif 'date' in command:
+        date = datetime.datetime.now().strftime("%b-%d-%Y")
+        print(date)
+        talk('Today is' + date)
     elif 'tell me about' in command:
         look_for = command.replace('tell me about', '')
-        info = wikipedia.summary(look_for, 1)
+        info = wikipedia.summary(look_for, 3)
         print(info)
         talk(info)
 
     elif 'joke' in command:
         talk(pyjokes.get_joke())
 
-    elif 'date' in command:
-        talk('sorry i have a boyfriend' )
     else:
-        talk('sorry i can not heard you but i can search it for you')
+        talk('I can search it for you. I am searching the web.')
         pywhatkit.search(command)
 
 while True:
 
-    run_alexa()
+    run_oxygen()
